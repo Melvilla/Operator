@@ -23,6 +23,9 @@ public class ComputerUIManager : MonoBehaviour
     {
         LoginButton.onClick.AddListener(OnLoginClicked);
         ShowLoginScreen();
+
+        // FOR TESTING
+        Cursor.visible = false;
     }
 
     private void OnLoginClicked()
@@ -35,7 +38,7 @@ public class ComputerUIManager : MonoBehaviour
         {
             UsernameInput.text = "";
             PasswordInput.text = "";
-            ErrorText.text = "Invalid username or password, please try again";
+            ErrorText.text = "Invalid username or password  please try again";
             StartCoroutine(HideErrorTextAfterDelay(5f));
         }
     }
