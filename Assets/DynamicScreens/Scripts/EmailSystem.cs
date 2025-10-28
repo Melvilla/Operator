@@ -8,22 +8,17 @@ public class EmailSystem : MonoBehaviour
     [Header("Scroll View Content")]
     [SerializeField] Transform EmailContentParent; // The content transform in the EmailScreen
 
-    [SerializeField] private CameraController cameraController;
-
     private int currentEmailIndex = 0;
 
     private void Update()
     {
-        if (cameraController.currentState == CameraController.CameraState.Monitor)
-        {
 #if ENABLE_LEGACY_INPUT_MANAGER
-            if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
 #else
         if (UnityEngine.InputSystem.Keyboard.current.spaceKey.wasPressedThisFrame)
 #endif // ENABLE_LEGACY_INPUT_MANAGER
-            {
-                AddNextEmail();
-            }
+        {
+            AddNextEmail();
         }
     }
 

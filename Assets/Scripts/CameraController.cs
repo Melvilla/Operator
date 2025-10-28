@@ -29,7 +29,10 @@ public class CameraController : MonoBehaviour
     private Transform targetPoint;
     private float targetFov;
 
-    public enum CameraState { Resting, Monitor, Caseboard, TransitionToResting }
+    private Transform noteFocusPoint;
+    private float noteFocusFov;
+
+    public enum CameraState { Resting, Monitor, Caseboard, NoteZoom, TransitionToResting }
     public CameraState currentState = CameraState.Resting;
 
     void Start()
@@ -66,6 +69,13 @@ public class CameraController : MonoBehaviour
                 currentState = CameraState.Resting;
                 UpdateCursorLock();
             }
+        }
+        else if (currentState == CameraState.NoteZoom && noteFocusPoint != null)
+        {
+            // Lerp position and rotation to the note's focus point, just like other transitions
+            transform.position = Vector3.Lerp(transform.position, noteFocusPoint.position, Time.deltaTime * transitionSpeed);
+            transform.rotation = Quaternion.Lerp(transform.rotation, noteFocusPoint.rotation, Time.deltaTime * transitionSpeed);
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, noteFocusFov, Time.deltaTime * transitionSpeed);
         }
         else
         {
@@ -127,6 +137,14 @@ public class CameraController : MonoBehaviour
         targetPoint = caseboardPoint;
         targetFov = caseboardFov;
         currentState = CameraState.Caseboard;
+        UpdateCursorLock();
+    }
+
+    public void SetNoteFocus(Transform noteTransform, float fov)
+    {
+        noteFocusPoint = noteTransform;
+        noteFocusFov = fov;
+        currentState = CameraState.NoteZoom;
         UpdateCursorLock();
     }
 }

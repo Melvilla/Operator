@@ -30,13 +30,19 @@ public class PlayerInteraction : MonoBehaviour
                             case Interactable.CameraFocusType.Caseboard:
                                 cameraController.SetCaseBoardFocus();
                                 break;
+                            case Interactable.CameraFocusType.Note:
+                                if (interactable.NoteFocusPoint != null)
+                                    cameraController.SetNoteFocus(interactable.NoteFocusPoint, interactable.NoteFocusFov);
+                                break;
                         }
                     }
                 }
             }
         }
 
-        if (cameraController.currentState == CameraController.CameraState.Monitor || cameraController.currentState == CameraController.CameraState.Caseboard)
+        if (cameraController.currentState == CameraController.CameraState.Monitor ||
+            cameraController.currentState == CameraController.CameraState.Caseboard ||
+            cameraController.currentState == CameraController.CameraState.NoteZoom)
         {
             if (Input.GetKey(KeyCode.Escape))
             {
